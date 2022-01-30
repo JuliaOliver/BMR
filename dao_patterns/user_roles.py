@@ -1,18 +1,19 @@
-import uuid
+from dao_patterns.main_repository import MainRepo
 
 
-class UserRoles:
+class UserRoles(MainRepo):
     def __init__(self):
+        super().__init__()
         self.regular_users = {}
         self.admin_users = {}
 
     def add_regular_user(self, user):
-        user.id_num = str(uuid.uuid1())
+        self.add_entity(user)
         self.regular_users[user.id_num] = user
         return user
 
     def add_admin_user(self, user):
-        user.id_num = str(uuid.uuid1())
+        self.add_entity(user)
         self.admin_users[user.id_num] = user
         return user
 
@@ -42,3 +43,10 @@ class UserRoles:
 
     def regulars_count(self):
         return len(self.regular_users)
+
+    def remove_user(self, user):
+        if user.id_num in self.regular_users:
+            self.regular_users.pop(user.id_num)
+        elif user.id_num in self.admin_users:
+            self.admin_users.pop(user.id_num)
+        self.delete_entity(user)
