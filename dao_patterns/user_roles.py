@@ -22,6 +22,26 @@ class UserRoles(MainRepo):
         self.regular_users.pop(user_id)
         self.admin_users[user_id] = user
 
+    def find_by_username(self, username):
+        if username in self.regular_users.values():
+            for uid, name in self.regular_users.items():
+                if username == name:
+                    return self.regular_users[uid]
+        if username in self.admin_users.values():
+            for uid, name in self.regular_users.items():
+                if username == name:
+                    return self.regular_users[uid]
+
+    def find_by_email(self, email):
+        if email in self.regular_users.values():
+            for uid, mail in self.regular_users.items():
+                if email == mail:
+                    return self.regular_users[uid]
+        if email in self.admin_users.values():
+            for uid, mail in self.regular_users.items():
+                if email == mail:
+                    return self.regular_users[uid]
+
     def find_all_regular_users(self):
         return self.regular_users.values()
 
